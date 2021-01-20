@@ -16,7 +16,7 @@ except NameError:
 FIXUPS = ['_', 'OLDPWD', 'PWD', 'SHLVL']
 
 
-def read_envbash(envbash, bash='bash', env=os.environ,
+def read_envbash(envbash, bash='bash', python=sys.executable, env=os.environ,
                  missing_ok=False, fixups=None, args=None):
     """
     Source ``envbash`` and return the resulting environment as a dictionary.
@@ -42,7 +42,7 @@ def read_envbash(envbash, bash='bash', env=os.environ,
         set -a
         source {} {} >/dev/null
         {} -c "import os; print(repr(dict(os.environ)))"
-    '''.format(pipes.quote(envbash), quoted_args, pipes.quote(sys.executable))
+    '''.format(pipes.quote(envbash), quoted_args, pipes.quote(python))
 
     # run the inline script with bash -c, capturing stdout. if there is any
     # error output from env.bash, it will pass through to stderr.
